@@ -1,4 +1,5 @@
-import requests #  used to make the HTTP POST requests with data to OC Transpo's API
+import requests  # used to make the HTTP POST requests with data to OC Transpo's API
+import parseXML
 
 # this is the function to be called from outside with the stop information to get the time info
 def getNextTimes(stopInfo):
@@ -43,6 +44,10 @@ def findTimes(xmlstr):
     keywords = ['AdjustedScheduleTime', 'AdjustmentAge']  # the two key tags we need to find in the XML
     digits = '1234567890'
 
+    timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
+    adjAgeList = parseXML.getValuesBetweentags('AdjustmentAge', xmlstr)
+
+    '''
     # run the function twice so it finds the first and second instance of a time estimate in the XML
     while(i < 2):
         index = xmlstr.find(keywords[0], index)  # start at present index, avoids searching already searched part
@@ -68,5 +73,18 @@ def findTimes(xmlstr):
 
         index += 50  # add enough to index to avoid finding end tag of current AdjustedScheduleTime
         i += 1  # iterate to next time given by OC Transpo
+        '''
 
     return timeList
+
+def isGPS(adjAgeList):
+    estTypeList = []
+    for i in range(adjAgeList):
+        if adjAgeList[i].isdigit() and adjAgeList[i] > 0:
+            estTypeList.append('Yes')
+        else:
+            estTypeList.append('No')
+
+    print estTypeList
+    return estTypeList
+
