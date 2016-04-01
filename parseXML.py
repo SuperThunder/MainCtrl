@@ -41,4 +41,4 @@ def testmodule():
     #print xml[sts[0]], xml[eds[0]]
     #print sts, eds
 
-testmodule()
+#testmodule()
