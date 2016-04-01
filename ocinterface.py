@@ -45,7 +45,7 @@ def findTimes(xmlstr):
     digits = '1234567890'
 
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
-    adjAgeList = parseXML.getValuesBetweentags('AdjustmentAge', xmlstr)
+    adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
 
     '''
     # run the function twice so it finds the first and second instance of a time estimate in the XML

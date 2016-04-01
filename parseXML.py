@@ -3,7 +3,7 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
     index = 0
     tagStartIndexes = []  # contains list of index of starting characters of tags
     tagEndIndexes = []  # Contains indexes of the last character of the values within the tags
-    timeList = []
+    tagList = []
     startTag = '<' + tag + '>' # Add opening and closing tags to differentiate start and end tags
     endTag = '</' + tag
 
@@ -24,9 +24,9 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
         index += len(endTag)  # Index is at start of end tag so this brings it forward enough
 
     for i in range(0, 3):  # goes from 0 to 2
-        timeList.append('')  # Add a blank entry to time list
+        tagList.append('')  # Add a blank entry to time list
         for k in range(tagEndIndexes[i], tagStartIndexes[i]+1):
-            timeList[i] += str(xmlstr[k])
+            tagList[i] += str(xmlstr[k])
 
 
 # Tests the functionality of the parser. Use for debug.
