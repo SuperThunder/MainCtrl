@@ -9,6 +9,7 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
 
     print 'Looking for tag', tag
 
+    #todo: find way to handle differentiating between having found all instances of tag and no instances of tag existing at all (ex: at night when no busses running)
     while index < len(xmlstr):
 
         # Find start of tag
