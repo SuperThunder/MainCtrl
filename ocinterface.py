@@ -27,23 +27,13 @@ def getNextTimes(stopInfo):
     # get next three times
     times, startTime1st = findTimes(timesReq.content)
 
-    print "Next two times:", times
+    print "Next times:", times
 
     return times, startTime1st
 
 
-# So this is a really stupid way of finding the times of the next busses
-# We find the location in the XML string of the tag preceding the information, which gives us the character
-# location of the first character, then add enough characters to get to the time number and check
-# whether it's single or double digit by looking for a / character after
+
 def findTimes(xmlstr):
-    # Use this as a workaround to the XML libraries not handling SOAP XML very well
-    # http://stackoverflow.com/questions/3873361/finding-multiple-occurrences-of-a-string-within-a-string-in-python
-    index = 0
-    i = 0
-    timeList = []
-    keywords = ['AdjustedScheduleTime', 'AdjustmentAge']  # the two key tags we need to find in the XML
-    digits = '1234567890'
 
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
     if timeList[0] == '-100':  # If none of the estimates are good, return all invalid values now
@@ -52,8 +42,9 @@ def findTimes(xmlstr):
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
     startTimeList = parseXML.getValuesBetweenTags('TripStartTime', xmlstr)
     startTime1st = "\"" + startTimeList[0] + "\""
-    estTypes = isGPS(adjAgeList)
+    #estTypes = isGPS(adjAgeList)
 
+    '''
     # Set a time to the invalid value if it is not a proper estimate
     for times in range(0, len(estTypes)):
         if estTypes[i] == 'Yes':
@@ -61,11 +52,12 @@ def findTimes(xmlstr):
         else:
             timeList[i] = -100
             print i, timeList[i]
-
+    '''
+    # Check if the time is a valid GPS, scheduled time, or not given
     for i in range(len(adjAgeList)):
         adjAge = adjAgeList[i]
         adjAgeInt = int(round(float(adjAge)))
-        print adjAgeInt
+        #print adjAgeInt
         if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
             continue
         elif adjAgeList[i] == '-1':
@@ -112,7 +104,7 @@ def isGPS(adjAgeList):
     for i in range(len(adjAgeList)):
         adjAge = adjAgeList[i]
         adjAgeInt = int(round(float(adjAge)))
-        print adjAgeInt
+        #print adjAgeInt
         if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
             estTypeList.append('Yes')
         else:

@@ -79,7 +79,6 @@ def stopTimeInfoRet(stopInfo):
     # Naming convention unfortunately switches a lot because of database entry/class attribute style
     stopInfo.TimeToNext = int(times[0])
     stopInfo.TimeTo2nd = int(times[1])
-    print stopInfo.TimeTo2nd, times[1]
     stopInfo.TimeTo3rd = int(times[2])
     stopInfo.NextBusStartTime = startTime
 
