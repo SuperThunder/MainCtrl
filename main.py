@@ -57,8 +57,8 @@ def dbAdd(dbConn, stopInfo):
     # need to have quotations as part of the string here or SQL doesn't like it
     timeStr = stopInfo.PollTime.strftime("\"%c\"")  # converts datetime object into string
 
-    dbCommand = """INSERT INTO Times (StopNum, RouteNum, PollTime, TimeToNext, TimeTo2nd) VALUES (%d, %d, %s, %d, %d)""" \
-                % (stopInfo.StopNum, stopInfo.RouteNum, timeStr, stopInfo.TimeToNext, stopInfo.TimeTo2nd)
+    dbCommand = """INSERT INTO Times (StopNum, RouteNum, PollTime, TimeToNext, NextBusStartTime TimeTo2nd, TimeTo3rd) VALUES (%d, %d, %s, %d, %d, %d, %d)""" \
+                % (stopInfo.StopNum, stopInfo.RouteNum, timeStr, stopInfo.TimeToNext, stopInfo.NextBusStartTime, stopInfo.TimeTo2nd, stopInfo.TimeTo3rd)
     print(dbCommand)
 
     dbConn.execute(dbCommand)
@@ -74,11 +74,13 @@ def dbClose(database):
 def stopTimeInfoRet(stopInfo):
 
     stopInfo.PollTime = datetime.datetime.now()  # get the time just before doing the call to OC Transpo
-    times = ocinterface.getNextTimes(stopInfo)  # get the times to the next busses (note: GPS times only likely for first next)
+    times, startTime = ocinterface.getNextTimes(stopInfo)  # get the times to the next busses (note: GPS times only likely for first next)
 
     # Naming convention unfortunately switches a lot because of database entry/class attribute style
     stopInfo.TimeToNext = int(times[0])
     stopInfo.TimeTo2nd = int(times[1])
+    stopInfo.Timeto3rd = int(times[2])
+    stopInfo.NextBusStartTime = startTime
 
     return stopInfo
 
@@ -103,7 +105,9 @@ class stopValues:
     RouteNum = -1  # OC Transpo bus route number
     PollTime = datetime.datetime.now()  # the date and time at which the API call was made
     TimeToNext = -100  # the estimated time to the next bus arrival at StopNum of the RouteNum bus
+    NextBusStartTime = ''  # the time the next bus to arrive set out
     TimeTo2nd = -100  # the estimated time to the 2nd next bus
+    TimeTo3rd = -100
 
 
 main()

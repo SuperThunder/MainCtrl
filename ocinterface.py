@@ -25,11 +25,11 @@ def getNextTimes(stopInfo):
     print timesReq.text  # prints raw XML info
 
     # get next three times
-    times = findTimes(timesReq.content)
+    times, startTime1st = findTimes(timesReq.content)
 
     print "Next two times:", times
 
-    return times
+    return times, startTime1st
 
 
 # So this is a really stupid way of finding the times of the next busses
@@ -47,6 +47,7 @@ def findTimes(xmlstr):
 
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
+    firstStartTime = parseXML.getValuesBetweenTags('TripStartTime', xmlstr)[0]
     estTypes = isGPS(adjAgeList)
 
     # Set a time to the invalid value if it is not a proper estimate
@@ -83,7 +84,7 @@ def findTimes(xmlstr):
         i += 1  # iterate to next time given by OC Transpo
         '''
 
-    return timeList
+    return timeList, firstStartTime
 
 # Check the AdjustmentAge field to see if a time value is a good (recent) GPS estimate
 def isGPS(adjAgeList):

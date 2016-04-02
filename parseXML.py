@@ -4,7 +4,7 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
     tagStartIndexes = []  # contains list of index of starting characters of tags
     tagEndIndexes = []  # Contains indexes of the last character of the values within the tags
     tagList = []
-    startTag = '<' + tag + '>' # Add opening and closing tags to differentiate start and end tags
+    startTag = '<' + tag + '>'  # Add opening and closing tags to differentiate start and end tags
     endTag = '</' + tag
 
     while index < len(xmlstr):
