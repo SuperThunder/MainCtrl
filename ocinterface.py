@@ -1,5 +1,6 @@
 import requests  # used to make the HTTP POST requests with data to OC Transpo's API
-import parseXML
+import parseXML  # Finds all instances of XML tag values
+
 
 # this is the function to be called from outside with the stop information to get the time info
 def getNextTimes(stopInfo):
@@ -23,7 +24,7 @@ def getNextTimes(stopInfo):
 
     print timesReq.text  # prints raw XML info
 
-    # get next two times
+    # get next three times
     times = findTimes(timesReq.content)
 
     print "Next two times:", times
@@ -46,6 +47,13 @@ def findTimes(xmlstr):
 
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
+    estTypes = isGPS(adjAgeList)
+
+    # Set a time to the invalid value if it is not a proper estimate
+    for times in range(0 , 2):
+        if estTypes[i] != 'Yes':
+            timeList[i] = -100
+
 
     '''
     # run the function twice so it finds the first and second instance of a time estimate in the XML
@@ -77,10 +85,11 @@ def findTimes(xmlstr):
 
     return timeList
 
+# Check the AdjustmentAge field to see if a time value is a good (recent) GPS estimate
 def isGPS(adjAgeList):
     estTypeList = []
-    for i in range(adjAgeList):
-        if adjAgeList[i].isdigit() and adjAgeList[i] > 0:
+    for i in range(0, 2):
+        if str(int(adjAgeList[i])).isdigit() and adjAgeList[i] > 0 and adjAgeList[i] < 2:  # Str->int->str since isdigit() not true for floats
             estTypeList.append('Yes')
         else:
             estTypeList.append('No')

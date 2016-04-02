@@ -28,6 +28,8 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
         for k in range(tagEndIndexes[i], tagStartIndexes[i]+1):
             tagList[i] += str(xmlstr[k])
 
+    return tagList
+
 
 # Tests the functionality of the parser. Use for debug.
 def testmodule():

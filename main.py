@@ -37,7 +37,9 @@ def dbOpen(database):
         RouteNum INT NOT NULL,
         PollTime STRING NOT NULL,
         TimeToNext INT,
-        TimeTo2nd INT);
+        NextBusStartTime STRING
+        TimeTo2nd INT
+        TimeTo3rd INT);
         ''')
         # above: creating table called TIMES
         # the primary key is a unique value to a table to identify it
