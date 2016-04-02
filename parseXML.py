@@ -7,11 +7,18 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
     startTag = '<' + tag + '>'  # Add opening and closing tags to differentiate start and end tags
     endTag = '</' + tag
 
+    print 'Looking for tag', tag
+
     while index < len(xmlstr):
 
         # Find start of tag
         index = xmlstr.find(startTag, index)
-        if index == -1: break  # -1 indicates no str found by str.find(), will show up after 3 times are found
+        print index
+        if index == 0:  # If index isn't moved can indiciate no string found
+            print 'No times found', index
+            return ['-100', '-100', '-100']
+
+        if index == -1: break  # -1 indicates no str found by str.find(), will show up after 3 times are found or if tag not present
         tagStartIndexes.append(index + len(startTag))  # start of values will be index + tag length
 
         # Find end of tag
@@ -25,7 +32,9 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
 
     for i in range(0, 3):  # goes from 0 to 2
         tagList.append('')  # Add a blank entry to time list
-        for k in range(tagEndIndexes[i], tagStartIndexes[i]+1):
+        print i
+        print tagStartIndexes[i], tagEndIndexes[i]+1
+        for k in range(tagStartIndexes[i], tagEndIndexes[i]+1):
             tagList[i] += str(xmlstr[k])
 
     return tagList
@@ -33,18 +42,8 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
 
 # Tests the functionality of the parser. Use for debug.
 def testmodule():
-    xml = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetNextTripsForStopResponse xmlns="http://octranspo.com"><GetNextTripsForStopResult><StopNo xmlns="http://tempuri.org/">8766</StopNo><StopLabel xmlns="http://tempuri.org/">CRICHTON CHARLES</StopLabel><Error xmlns="http://tempuri.org/" /><Route xmlns="http://tempuri.org/"><RouteDirection><RouteNo>9</RouteNo><RouteLabel>Rideau</RouteLabel><Direction>Southbound</Direction><Error /><RequestProcessingTime>20160331124800</RequestProcessingTime><Trips><Trip><TripDestination>Bank</TripDestination><TripStartTime>12:44</TripStartTime><AdjustedScheduleTime>12</AdjustedScheduleTime><AdjustmentAge>0.75</AdjustmentAge><LastTripOfSchedule>false</LastTripOfSchedule><BusType>4LB - IN</BusType><Latitude>45.412276</Latitude><Longitude>-75.659030</Longitude><GPSSpeed>0.5</GPSSpeed></Trip><Trip><TripDestination>Bank</TripDestination><TripStartTime>13:04</TripStartTime><AdjustedScheduleTime>31</AdjustedScheduleTime><AdjustmentAge>-1</AdjustmentAge><LastTripOfSchedule>false</LastTripOfSchedule><BusType>4LB - IN</BusType><Latitude /><Longitude /><GPSSpeed /></Trip><Trip><TripDestination>Bank</TripDestination><TripStartTime>13:24</TripStartTime><AdjustedScheduleTime>51</AdjustedScheduleTime><AdjustmentAge>-1</AdjustmentAge><LastTripOfSchedule>false</LastTripOfSchedule><BusType>4E - DEH</BusType><Latitude /><Longitude /><GPSSpeed /></Trip></Trips></RouteDirection></Route></GetNextTripsForStopResult></GetNextTripsForStopResponse></soap:Body></soap:Envelope>'
-    sts, eds = getValuesBetweenTags('AdjustedScheduleTime', xml)
-    timeList = []
-    for i in range(0, 3):  # goes from 0 to 2
-        timeList.append('')
-        for k in range(sts[i], eds[i]+1):
-            timeList[i] += str(xml[k])
-            print xml[k],  # comma to prevent newline
-        print ''  # cause newline
-
-    print timeList
-    #print xml[sts[0]], xml[eds[0]]
-    #print sts, eds
+    xml = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetNextTripsForStopResponse xmlns="http://octranspo.com"><GetNextTripsForStopResult><StopNo xmlns="http://tempuri.org/">8766</StopNo><StopLabel xmlns="http://tempuri.org/">CRICHTON CHARLES</StopLabel><Error xmlns="http://tempuri.org/" /><Route xmlns="http://tempuri.org/"><RouteDirection><RouteNo>9</RouteNo><RouteLabel>Rideau</RouteLabel><Direction>Southbound</Direction><Error /><RequestProcessingTime>20160402012857</RequestProcessingTime><Trips /></RouteDirection></Route></GetNextTripsForStopResult></GetNextTripsForStopResponse></soap:Body></soap:Envelope>'
+    tags = getValuesBetweenTags('AdjustedScheduleTime', xml)
+    print tags
 
 #testmodule()

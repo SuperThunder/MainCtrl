@@ -3,7 +3,7 @@ import datetime  # Gets full date/time for timestamping
 import time  # Used for sleep functionality
 import ocinterface  # Interfaces with the OC Transpo API
 
-CREATE_TABLES = 1  # flag for if the database is being generated for the first time
+CREATE_TABLES = 0  # flag for if the database is being generated for the first time
 
 def main():
     # todo: switch to real DB when collecting full data
