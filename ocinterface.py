@@ -51,12 +51,28 @@ def findTimes(xmlstr):
 
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
     startTimeList = parseXML.getValuesBetweenTags('TripStartTime', xmlstr)
+    startTime1st = "\"" + startTimeList[0] + "\""
     estTypes = isGPS(adjAgeList)
 
     # Set a time to the invalid value if it is not a proper estimate
-    for times in range(0 , 2):
-        if estTypes[i] != 'Yes':
+    for times in range(0, len(estTypes)):
+        if estTypes[i] == 'Yes':
+            continue
+        else:
             timeList[i] = -100
+            print i, timeList[i]
+
+    for i in range(len(adjAgeList)):
+        adjAge = adjAgeList[i]
+        adjAgeInt = int(round(float(adjAge)))
+        print adjAgeInt
+        if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
+            continue
+        elif adjAgeList[i] == '-1':
+            timeList[i] = -50
+        else:
+            timeList[i] = -100
+
 
 
     '''
@@ -87,17 +103,21 @@ def findTimes(xmlstr):
         i += 1  # iterate to next time given by OC Transpo
         '''
 
-    return timeList, startTimeList[0]
+    return timeList, startTime1st
 
 # Check the AdjustmentAge field to see if a time value is a good (recent) GPS estimate
 def isGPS(adjAgeList):
     estTypeList = []
-    for i in range(0, 3):
-        if str(int(adjAgeList[i])).isdigit() and adjAgeList[i] > 0 and adjAgeList[i] < 2:  # Str->int->str since isdigit() not true for floats
+    #print adjAgeList
+    for i in range(len(adjAgeList)):
+        adjAge = adjAgeList[i]
+        adjAgeInt = int(round(float(adjAge)))
+        print adjAgeInt
+        if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
             estTypeList.append('Yes')
         else:
             estTypeList.append('No')
 
-    print estTypeList
+    print "GPS: ", estTypeList
     return estTypeList
 

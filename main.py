@@ -37,8 +37,8 @@ def dbOpen(database):
         RouteNum INT NOT NULL,
         PollTime STRING NOT NULL,
         TimeToNext INT,
-        NextBusStartTime STRING
-        TimeTo2nd INT
+        NextBusStartTime STRING,
+        TimeTo2nd INT,
         TimeTo3rd INT);
         ''')
         # above: creating table called TIMES
@@ -57,7 +57,7 @@ def dbAdd(dbConn, stopInfo):
     # need to have quotations as part of the string here or SQL doesn't like it
     timeStr = stopInfo.PollTime.strftime("\"%c\"")  # converts datetime object into string
 
-    dbCommand = """INSERT INTO Times (StopNum, RouteNum, PollTime, TimeToNext, NextBusStartTime TimeTo2nd, TimeTo3rd) VALUES (%d, %d, %s, %d, %d, %d, %d)""" \
+    dbCommand = """INSERT INTO Times (StopNum, RouteNum, PollTime, TimeToNext, NextBusStartTime, TimeTo2nd, TimeTo3rd) VALUES (%d, %d, %s, %d, %s, %d, %d)""" \
                 % (stopInfo.StopNum, stopInfo.RouteNum, timeStr, stopInfo.TimeToNext, stopInfo.NextBusStartTime, stopInfo.TimeTo2nd, stopInfo.TimeTo3rd)
     print(dbCommand)
 
@@ -74,12 +74,13 @@ def dbClose(database):
 def stopTimeInfoRet(stopInfo):
 
     stopInfo.PollTime = datetime.datetime.now()  # get the time just before doing the call to OC Transpo
-    times, startTime = ocinterface.getNextTimes(stopInfo)  # get the times to the next busses (note: GPS times only likely for first next)
+    times, startTime = ocinterface.getNextTimes(stopInfo)  # get the times to the next buses (GPS only likely for 1st)
 
     # Naming convention unfortunately switches a lot because of database entry/class attribute style
     stopInfo.TimeToNext = int(times[0])
     stopInfo.TimeTo2nd = int(times[1])
-    stopInfo.Timeto3rd = int(times[2])
+    print stopInfo.TimeTo2nd, times[1]
+    stopInfo.TimeTo3rd = int(times[2])
     stopInfo.NextBusStartTime = startTime
 
     return stopInfo
