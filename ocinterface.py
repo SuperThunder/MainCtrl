@@ -44,22 +44,14 @@ def findTimes(xmlstr):
     startTime1st = "\"" + startTimeList[0] + "\""
     #estTypes = isGPS(adjAgeList)
 
-    '''
-    # Set a time to the invalid value if it is not a proper estimate
-    for times in range(0, len(estTypes)):
-        if estTypes[i] == 'Yes':
-            continue
-        else:
-            timeList[i] = -100
-            print i, timeList[i]
-    '''
+    # Check for cases in which less than the normal 3 estimates are given; ex at night when busses don't run
     if len(timeList) == 2:
         timeList.append(-100)
     elif len(timeList) == 1:
         timeList.append(-100)
         timeList.append(-100)
     else:
-        timeList == ['-100', '-100', '-100']
+        timeList = ['-100', '-100', '-100']
 
     # Check if the time is a valid GPS, scheduled time, or not given
     for i in range(len(adjAgeList)):
