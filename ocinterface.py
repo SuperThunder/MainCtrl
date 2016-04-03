@@ -53,6 +53,14 @@ def findTimes(xmlstr):
             timeList[i] = -100
             print i, timeList[i]
     '''
+    if len(timeList) == 2:
+        timeList.append(-100)
+    elif len(timeList) == 1:
+        timeList.append(-100)
+        timeList.append(-100)
+    else:
+        timeList == ['-100', '-100', '-100']
+
     # Check if the time is a valid GPS, scheduled time, or not given
     for i in range(len(adjAgeList)):
         adjAge = adjAgeList[i]
@@ -64,36 +72,6 @@ def findTimes(xmlstr):
             timeList[i] = -50
         else:
             timeList[i] = -100
-
-
-
-    '''
-    # run the function twice so it finds the first and second instance of a time estimate in the XML
-    while(i < 2):
-        index = xmlstr.find(keywords[0], index)  # start at present index, avoids searching already searched part
-        time = str(xmlstr[index+21])  # From the start of 'Adjusted', the time starts 21 chars later
-
-        if(xmlstr[index+22] != '<'):
-            time += str(xmlstr[index+22])  # add the extra digit if the time is double digited, triple will never happen
-
-        # Check time estimate for 2nd bus
-        index = xmlstr.find(keywords[1], index)  # check whether the time is not GPS or hasn't been updated in a while
-        timeSinceUpdate = str(xmlstr[index+14])
-        if(xmlstr[index+15] in digits):
-            timeSinceUpdate += str(xmlstr[index+15])  # check if time since last update is double digit
-
-        # note: OC Transpo use '-1' in the AdjusmentAge field to signify a non-GPS time
-        #todo: cleanup error handling a little bit more
-        if(timeSinceUpdate.isdigit()==True and int(timeSinceUpdate) < 2):  # check that time is a live GPS estimate
-            print "Time %d time since GPS time was updated: " %(i+1), timeSinceUpdate
-            timeList.append(time)  # add time to list of the two next times
-        else:
-            print "Time %d non-GPS or accurate time, AdjustmentAge value: %s" %(i+1, timeSinceUpdate)
-            timeList.append('-100')  # keep the non-GPS signifying time
-
-        index += 50  # add enough to index to avoid finding end tag of current AdjustedScheduleTime
-        i += 1  # iterate to next time given by OC Transpo
-        '''
 
     return timeList, startTime1st
 
