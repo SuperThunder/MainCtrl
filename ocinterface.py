@@ -45,11 +45,13 @@ def findTimes(xmlstr):
     #estTypes = isGPS(adjAgeList)
 
     # Check for cases in which less than the normal 3 estimates are given; ex at night when busses don't run
-    if len(timeList) == 2:
-        timeList.append(-100)
-    elif len(timeList) == 1:
+    if len(timeList) == 1:
         timeList.append(-100)
         timeList.append(-100)
+    elif len(timeList) == 2:
+        timeList.append(-100)
+    elif len(timeList) == 3:
+        timeList = timeList  # Normal length, don't need to do anything
     else:
         timeList = ['-100', '-100', '-100']
 
