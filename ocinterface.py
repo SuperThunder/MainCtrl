@@ -37,7 +37,7 @@ def findTimes(xmlstr):
 
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
     if timeList[0] == '-100':  # If none of the estimates are good, return all invalid values now
-        return timeList, '-100'
+        return [-100, -100, -100], '-100'
 
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
     startTimeList = parseXML.getValuesBetweenTags('TripStartTime', xmlstr)
@@ -50,10 +50,10 @@ def findTimes(xmlstr):
         timeList.append(-100)
     elif len(timeList) == 2:
         timeList.append(-100)
-    elif len(timeList) == 3:
-        timeList = timeList  # Normal length, don't need to do anything
+    elif len(timeList) == 3:  # Normal length, don't need to do anything
+        timeList = timeList  # todo: figure out a less odd way of not doing anything
     else:
-        timeList = ['-100', '-100', '-100']
+        timeList = ['-100', '-100', '-100']  # If the time list has is somehow bigger or smaller than expected
 
     # Check if the time is a valid GPS, scheduled time, or not given
     for i in range(len(adjAgeList)):
