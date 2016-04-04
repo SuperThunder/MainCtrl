@@ -59,7 +59,7 @@ def findTimes(xmlstr):
     for i in range(len(adjAgeList)):
         adjAge = adjAgeList[i]
         adjAgeInt = int(round(float(adjAge)))
-        #print adjAgeInt
+
         if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
             continue
         elif adjAgeList[i] == '-1':
@@ -76,7 +76,7 @@ def isGPS(adjAgeList):
     for i in range(len(adjAgeList)):
         adjAge = adjAgeList[i]
         adjAgeInt = int(round(float(adjAge)))
-        #print adjAgeInt
+
         if adjAge[0].isdigit() and adjAgeInt >= 0 and adjAgeInt < 2:
             estTypeList.append('Yes')
         else:
