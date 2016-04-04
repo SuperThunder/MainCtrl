@@ -31,8 +31,8 @@ def getValuesBetweenTags(tag, xmlstr):  # find all instances of an XML tag and r
         index = tagLoc + len(endTag)  # Bring index past last found closing tag
 
     for i in range(len(tagEndIndexes)):  # Scales to however many tags were found
-        tagList.append('')  # Add a blank entry to time list
-        #print tagStartIndexes[i], tagEndIndexes[i]+1
+        tagList.append('')  # Add a blank entry to tag list
+        # Fill in the tag values by adding all the characters between the start and end index together
         for k in range(tagStartIndexes[i], tagEndIndexes[i]+1):
             tagList[i] += str(xmlstr[k])
 

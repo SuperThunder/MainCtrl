@@ -1,7 +1,7 @@
 import requests  # used to make the HTTP POST requests with data to OC Transpo's API
 import parseXML  # Finds all instances of XML tag values
 
-
+# TODO: compartmentalize everything wayyyyyyy more
 # this is the function to be called from outside with the stop information to get the time info
 def getNextTimes(stopInfo):
 
