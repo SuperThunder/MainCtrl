@@ -29,7 +29,7 @@ def dbOpen(database):
 
     dbConn = sqlite3.connect(database)  # database connector
     print('Database opened successfully')
-
+    
     # add the appropriate tables we need, toggle flag if rebuilding db
     if(CREATE_TABLES == 1):
         dbConn.execute('''CREATE TABLE Times
