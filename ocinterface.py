@@ -34,10 +34,16 @@ def getNextTimes(stopInfo):
 
 
 def findTimes(xmlstr):
-
+    # todo: figure out the program crashing bugs that happens here but only after several days
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
-    if timeList[0] == '-100':  # If none of the estimates are good, return all invalid values now
-        return [-100, -100, -100], '-100'
+    try:
+        if timeList[0] == '-100':  # If none of the estimates are good, return all invalid values now
+            return [-100, -100, -100], '-100'
+    except IndexError:
+        print "Index error with timelist", timeList
+    except:
+        print "Unknown error with timelist", timeList
+
 
     adjAgeList = parseXML.getValuesBetweenTags('AdjustmentAge', xmlstr)
     startTimeList = parseXML.getValuesBetweenTags('TripStartTime', xmlstr)
