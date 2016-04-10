@@ -12,14 +12,17 @@ def main():
     # program runs until stopped in command line
     while True:
 
-        checkTime()
+        try:
+            checkTime()
 
-        stop8766Info = stopValues()
-        stop8766Info = fill9Info(stop8766Info)
-        stop8766Info = stopTimeInfoRet(stop8766Info)
+            stop8766Info = stopValues()
+            stop8766Info = fill9Info(stop8766Info)
+            stop8766Info = stopTimeInfoRet(stop8766Info)
 
-        dbAdd(busTimes, stop8766Info)
-        busTimes.commit()  # need to commit changes (insertion/deletion/etc) made to database
+            dbAdd(busTimes, stop8766Info)
+            busTimes.commit()  # need to commit changes (insertion/deletion/etc) made to database
+        except:
+            print "Failure in program function"
 
     # Close the database connection
     dbClose(busTimes)
