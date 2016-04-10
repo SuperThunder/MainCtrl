@@ -35,6 +35,7 @@ def getNextTimes(stopInfo):
 
 def findTimes(xmlstr):
     # todo: figure out the program crashing bugs that happens here but only after several days
+    # maybe unhandled internet connectivity issue?
     timeList = parseXML.getValuesBetweenTags('AdjustedScheduleTime', xmlstr)
     try:
         if timeList[0] == '-100':  # If none of the estimates are good, return all invalid values now
